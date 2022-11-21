@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset(affiliate.cssFolder ~'/css/estilos.css') }}"/>
+    <link rel="stylesheet" href="{{ asset(affiliate.cssFolder ~'/css/reset.css') }}"/>
+{% endblock %}
+{% block head %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ affiliate.googleAnalytics }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="box-header header">
+        <h1></h1>
+        <p class="tit-webcams"></p>
+        <div class="menu">
+            <a class="" href="#">Inicio</a>
+            <a class="" href="#">Chicas</a>
+        </div>
+    </div>
+    <div class="listado-chicas">
+        {% for webcam in webcams %}
+            {% set thumbnail = (webcam.thumbnailBig is defined ? webcam.thumbnailBig : webcam.thumbnail) %}
+            {% set classChica = (webcam.thumbnailBig is defined ? 'chica chica-grande' : 'chica') %}
+            <div class="{{ classChica }}">
+                <a class="link popup-iframe" href="http://webcams.cumlouder.com/joinmb/cumlouder/{{ webcam.wbmerNick }}/?nats={{ affiliate.natsCode }}">
+                    {% if assetExists(affiliate.cssFolder ~'/images/'~ thumbnail)  %}
+                        <img class="thumb" src="{{ asset(affiliate.cssFolder ~'/images/'~ thumbnail) }}" alt="profile image">
+                    {% else %}
+                        <img class="thumb" src="{{ asset('images/no-image.jpg') }}" alt="profile image">
+                    {% endif %}
+                        <div class="nombre-chica">
+                            {{ webcam.wbmerNick }}
+                            {% if webcam.wbmerOnline == '1' %}
+                                <span class="ico-online"></span>
+                            {% endif %}
+                                <span class="ico-favorito"></span>
+                        </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <script src="{{ asset('js/Webcam.js') }}"></script>
+    <div class="clear"></div>
+{% endblock %}
+{% block footer %}
+    <div class="box-footer"></div>
+{% endblock %}
